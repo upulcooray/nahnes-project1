@@ -1,0 +1,217 @@
+---
+title: "get-data"
+author: "upulcooray"
+date: "2021-07-03"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## This code is to download and clean nahnes data
+
+```{r setup,include=FALSE}
+library(knitr)
+library(tidyverse)
+knitr::opts_chunk$set(cache = TRUE, warning = FALSE, message = FALSE, 
+                      echo = TRUE, dpi = 300, cache.lazy = FALSE,
+                      tidy = "styler", fig.width = 8, fig.height = 5)
+
+```
+
+
+```{r include=FALSE}
+# A function to rbind multiple datasets with some common coloums
+
+fast.rbind <- function(...,method=c("fill","common"),value=NA){
+    if("fill"==method[1]) {
+        fun1 <- function(x,y,value=NA){
+            x[setdiff(colnames(y),colnames(x))] <- value
+
+            y[setdiff(colnames(x),colnames(y))] <- value
+
+            return(rbind(x,y))
+        }
+    }
+
+    if("common"==method[1]) {
+        fun1 <- function(x,y,value=NULL){
+            common_cols <- intersect(colnames(x), colnames(y))
+            return(rbind(x[, common_cols,drop=F],y[, common_cols,drop=F]))
+        }
+    }
+    return(Reduce(function(x,y){fun1(x=x,y=y,value=value)},list(...)))
+}
+
+```
+
+
+```{r}
+library(nhanesA)
+
+
+nhanesTables(data_group = "DEMO", year = 2017)
+nhanesTables(data_group = "EXAM", year = 2014)
+
+
+demo <- do.call(fast.rbind,lapply(c("DEMO_H","DEMO_I","DEMO_J"), nhanes))
+ohq <- do.call(fast.rbind,lapply(c("OHQ_H","OHQ_I","OHQ_J"), nhanes))
+ohex <- do.call(fast.rbind,lapply(c("OHXDEN_H","OHXDEN_I","OHXDEN_J"), nhanes))
+smok <- do.call(fast.rbind,lapply(c("SMQ_H","SMQ_I","SMQ_J"), nhanes))
+alco <- do.call(fast.rbind,lapply(c("ALQ_H","ALQ_I","ALQ_J"), nhanes))
+diet1 <- do.call(fast.rbind,lapply(c("DR1TOT_H","DR1TOT_I","DR1TOT_J"), nhanes))
+diet2 <- do.call(fast.rbind,lapply(c("DR2TOT_H","DR2TOT_I","DR2TOT_J"), nhanes))
+health <- do.call(fast.rbind,lapply(c("HSQ_H","HSQ_I","HSQ_J"), nhanes))
+body<- do.call(fast.rbind,lapply(c("BMX_H","BMX_I","BMX_J"), nhanes))
+
+
+nhanes-data <- merge(demo,ohq,ohex,smok,alco,diet1,diet2,health,body,by = )
+
+nhanes_data <- Reduce(function(x,y) merge(x,y,by="SEQN",all=TRUE) ,list(demo,ohq,ohex,smok,alco,diet1,diet2,health,body))
+
+demo_h_vars  <- nhanesTableVars('DEMO', 'DEMO_H', namesonly=TRUE)
+ohq_h_vars  <- nhanesTableVars('Q', 'OHQ_H', namesonly=TRUE)
+ohex_h_vars  <- nhanesTableVars('EXAM', 'OHXDEN_H', namesonly=TRUE)
+smok_h_vars  <- nhanesTableVars('Q', 'SMQ_H', namesonly=TRUE)
+alco_h_vars  <- nhanesTableVars('Q', 'ALQ_H', namesonly=TRUE)
+health_h_vars  <- nhanesTableVars('Q', 'HSQ_H', namesonly=TRUE)
+body_h_vars  <- nhanesTableVars('EXAM', 'BMX_H', namesonly=TRUE)
+
+all.names <- c(demo_h_vars,ohq_h_vars,ohex_h_vars,smok_h_vars,alco_h_vars,health_h_vars,body_h_vars)
+
+
+#Alternatively may use bpx_d_vars = names(bpx_d)
+nhanes_data_temp <- suppressWarnings(nhanesTranslate('DEMO_H', demo_h_vars, data=nhanes_data))
+nhanes_data_temp <- suppressWarnings(nhanesTranslate('OHQ_H', ohq_h_vars, data=nhanes_data_temp))
+nhanes_data_temp <- suppressWarnings(nhanesTranslate('OHXDEN_H', ohex_h_vars, data=nhanes_data_temp))
+nhanes_data_temp <- suppressWarnings(nhanesTranslate('SMQ_H', smok_h_vars, data=nhanes_data_temp))
+nhanes_data_temp <- suppressWarnings(nhanesTranslate('ALQ_H', alco_h_vars, data=nhanes_data_temp))
+nhanes_data_temp <- suppressWarnings(nhanesTranslate('HSQ_H', health_h_vars, data=nhanes_data_temp))
+
+nhanes_data_lab <- suppressWarnings(nhanesTranslate('BMX_H', body_h_vars , data=nhanes_data_temp))
+
+
+save(nhanes_data, file = "data/")
+
+
+library("skimr")
+
+```
+
+```{r}
+
+nhanesTableVars('EXAM', 'OHXDEN_I')
+# OHX**TC = total count   
+
+nhanesTableVars('DEMO', 'DEMO_I')
+
+# DMDEDUC2= education
+# DMDHHSIZ= household size
+# DMDMARTL= marital status
+# INDFMIN2= hh income
+# INDFMPIR= ratio of family income to poverty
+# RIAGENDR= gender
+# RIDAGEYR= age
+# RIDRETH1/RIDRETH3= ethnicity
+# SDDSRVYR= survey year
+# SEQN= id
+# WTINT2YR= interview weights
+# WTMEC2YR= examination weights
+ 
+nhanesTableVars('Q', 'OHQ_H')
+
+# OHQ033= What was the main reason last visited the dentist?
+# OHQ620= How often during the last year had painful aching
+# OHQ640= How often during the last year had difficulty doing  usual jobs
+# OHQ845= Overall, how would  rate the health of {your/his/her} teeth and gums?
+# OHQ848G= How many times brush  teeth in one day?
+# OHQ848Q= How many times  brush  teeth in one day?
+
+nhanesTableVars('Q', 'HSQ_I')
+# HSD010= SRH
+
+nhanesTableVars('EXAM', 'BMX_H')
+# BMXBMI= BMI
+
+nhanesTableVars('Q', 'SMQ_H')
+# SMQ040= now smoke cigarettes?
+
+nhanesTableVars('Q', 'ALQ_H')
+
+nhanesTableVars('DIET', 'DR1TOT_H')
+# DR1TSUGR/DR2TSUGR = Total sugars (gm)
+
+```
+
+```{r}
+
+q_vars<- nhanes_data_lab %>%  select(
+  id= SEQN ,
+  psu= SDMVPSU,
+  strata= SDMVSTRA,
+  int_ex_status=RIDSTATR,
+  int_wt= WTINT2YR,
+  exam_wt= WTMEC2YR,
+  cycle= SDDSRVYR,
+  Age= RIDAGEYR,
+  Sex= RIAGENDR,
+  Married= DMDMARTL,
+  Income= INDFMIN2,
+  poverty= INDFMPIR,
+  Education= DMDEDUC2,
+  Ethnicity= RIDRETH1,
+  hh_size= DMDHHSIZ,
+  den_visit= OHQ033,
+  den_pain= OHQ620,
+  sroh= OHQ845,
+  srgh= HSD010,
+  brush_fq=OHQ848Q,
+  bmi=BMXBMI,
+  sugar1= DR1TSUGR,
+  sugar2= DR2TSUGR,
+  smoke= SMQ040)
+
+d_data <- nhanes_data_lab %>%  select(matches("OHX[0-9][0-9]TC"))
+
+nhanes_df <- cbind(q_vars,d_data)
+
+analytic_data <- nhanes_df %>% 
+  # clean storage type
+  mutate(across(where(is_double), as.numeric)) %>% 
+  mutate_at(vars(id,psu,strata,Age), as.numeric) %>% 
+  # over 18 year old
+  filter(Age>18) %>% 
+  # individual permanent tooth present=1 not=0
+  mutate_at(vars(OHX01TC:OHX32TC), ~ifelse(.=="Permanent tooth present",1,0)) %>% 
+  # remove third molar
+  select(-OHX32TC,-OHX17TC,-OHX16TC,-OHX01TC) %>% 
+  # start row wise calculations
+  rowwise() %>% 
+  # derived variables
+         # total upper teeth
+  mutate(upper_teeth= sum(c_across(OHX02TC:OHX15TC)),
+         # total lower teeth
+         lower_teeth= sum(c_across(OHX18TC:OHX31TC)),
+         # no of upper molars
+         upper_molar= sum(c_across(all_of(c("OHX02TC","OHX03TC","OHX14TC","OHX15TC")))),
+         # no of lower molars
+         lower_molar= sum(c_across(all_of(c("OHX14TC","OHX15TC","OHX30TC",'OHX31TC')))),
+         # total molars
+         molar_tot= sum(c_across(upper_molar:lower_molar)),
+         # Total number of teeth
+         teeth_tot= sum(c_across(upper_teeth:lower_teeth))) %>% 
+  # end of row wise calculations
+  ungroup() %>% 
+  # remove individual tooth level variables
+  select(-(OHX02TC:OHX31TC))
+
+
+
+test <- nhanes_df %>% labelled::remove_val_labels()
+skimr::skim(test)
+
+
+labelled::remove_val_labels(nhanes_df) %>% glimpse()
+
+```
+
+labelled::remove_val_labels
