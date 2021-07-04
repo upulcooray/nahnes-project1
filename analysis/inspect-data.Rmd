@@ -13,9 +13,8 @@ editor_options:
 library(knitr)
 library(tidyverse)
 library(skimr)
-knitr::opts_chunk$set(cache = TRUE, warning = FALSE, message = FALSE, 
-                      echo = TRUE, dpi = 300, cache.lazy = FALSE,
-                      autodep = TRUE,
+knitr::opts_chunk$set( warning = FALSE, message = FALSE, 
+                      echo = TRUE, dpi = 300, 
                       tidy = "styler", fig.width = 8, fig.height = 5)
 
 ```
