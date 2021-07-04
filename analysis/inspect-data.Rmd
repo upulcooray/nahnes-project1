@@ -1,0 +1,62 @@
+---
+title: "inspect-data"
+author: "upulcooray"
+date: "2021-07-05"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Cleaning and inspection of downloded NHANES data
+
+```{r setup,include=FALSE}
+library(knitr)
+library(tidyverse)
+library(skimr)
+knitr::opts_chunk$set(cache = TRUE, warning = FALSE, message = FALSE, 
+                      echo = TRUE, dpi = 300, cache.lazy = FALSE,
+                      autodep = TRUE,
+                      tidy = "styler", fig.width = 8, fig.height = 5)
+
+```
+
+```{r message=FALSE, warning=FALSE}
+# Load dataset
+load("data/working_df.R")
+
+# Creating analytic df
+
+analytic_data <- nhanes_df %>% 
+  # clean storage type
+  mutate(across(where(is_double), as.numeric)) %>% 
+  mutate_at(vars(id,psu,strata,Age), as.numeric) %>% 
+  # over 18 year old
+  filter(Age>18) %>% 
+  # individual permanent tooth present=1 not=0
+  mutate_at(vars(OHX01TC:OHX32TC), ~ifelse(.=="Permanent tooth present",1,0)) %>% 
+  # remove third molar
+  select(-OHX32TC,-OHX17TC,-OHX16TC,-OHX01TC) %>% 
+  # start row wise calculations
+  rowwise() %>% 
+  # derived variables
+         # total upper teeth
+  mutate(upper_teeth= sum(c_across(OHX02TC:OHX15TC)),
+         # total lower teeth
+         lower_teeth= sum(c_across(OHX18TC:OHX31TC)),
+         # no of upper molars
+         upper_molar= sum(c_across(all_of(c("OHX02TC","OHX03TC","OHX14TC","OHX15TC")))),
+         # no of lower molars
+         lower_molar= sum(c_across(all_of(c("OHX14TC","OHX15TC","OHX30TC",'OHX31TC')))),
+         # total molars
+         molar_tot= sum(c_across(upper_molar:lower_molar)),
+         # Total number of teeth
+         teeth_tot= sum(c_across(upper_teeth:lower_teeth))) %>% 
+  # end of row wise calculations
+  ungroup() %>% 
+  # remove individual tooth level variables
+  select(-(OHX02TC:OHX31TC))
+
+skim(analytic_data)
+
+```
+
