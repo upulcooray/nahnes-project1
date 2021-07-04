@@ -1,7 +1,7 @@
-name: "nahnes-project1"
+name: Project 1
 output_dir: ../docs
 navbar:
-  title: "nahnes-project1"
+  title: Project 1
   left:
   - text: Home
     href: index.html
@@ -9,6 +9,10 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/upulcooray/nahnes-project1
 output:
   workflowr::wflow_html:
     toc: yes
