@@ -59,3 +59,31 @@ skim(analytic_data)
 
 ```
 
+
+Some visualization
+
+```{r}
+
+analytic_data %>% 
+  filter(!is.na(poverty),!is.na(den_pain)) %>% 
+  mutate(pov= (poverty %/% 0.5)*0.5) %>% 
+  count(pov, den_pain) %>% 
+  ggplot(aes(pov,n, color= den_pain))+
+  geom_line(size= 1.5, alpha= 0.7)+
+  labs(
+    x = NULL, y = "Number of people",
+    color = "Dental pain?"
+  )
+
+  
+
+
+
+
+```
+
+
+
+
+
+
