@@ -367,7 +367,7 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -376,7 +376,7 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -388,7 +388,7 @@ div.tocify {
 <strong>Last updated:</strong> 2021-07-05
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>nahnes-project1/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -452,21 +452,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongdetected"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>Cache:</strong> detected </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
 </p>
 </div>
-<div id="strongCachestrongdetected" class="panel-collapse collapse">
+<div id="strongCachestrongnone" class="panel-collapse collapse">
 <div class="panel-body">
-The following chunks had caches available:
-<ul>
-<li>
-session-info-chunk-inserted-by-workflowr
-</li>
-<li>
-unnamed-chunk-1
-</li>
-</ul>
-<p>To ensure reproducibility of the results, delete the cache directory <code>inspect-data_cache</code> and re-run the analysis. To have workflowr automatically delete the cache directory prior to building the file, set <code>delete_cache = TRUE</code> when running <code>wflow_build()</code> or <code>wflow_publish()</code>.</p>
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
 </div>
 </div>
 </div>
@@ -485,16 +476,16 @@ unnamed-chunk-1
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomupulcooraynahnesproject1treef491aa147894fb474214cff2c60c67ba75c1c65dtargetblankf491aa1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/upulcooray/nahnes-project1/tree/f491aa147894fb474214cff2c60c67ba75c1c65d" target="_blank">f491aa1</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomupulcooraynahnesproject1treef0b72c14d1f3f400705e64d063d0f30a94e196f7targetblankf0b72c1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/upulcooray/nahnes-project1/tree/f0b72c14d1f3f400705e64d063d0f30a94e196f7" target="_blank">f0b72c1</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomupulcooraynahnesproject1treef491aa147894fb474214cff2c60c67ba75c1c65dtargetblankf491aa1a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomupulcooraynahnesproject1treef0b72c14d1f3f400705e64d063d0f30a94e196f7targetblankf0b72c1a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/upulcooray/nahnes-project1/tree/f491aa147894fb474214cff2c60c67ba75c1c65d" target="_blank">f491aa1</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/upulcooray/nahnes-project1/tree/f0b72c14d1f3f400705e64d063d0f30a94e196f7" target="_blank">f0b72c1</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -503,7 +494,6 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/inspect-data_cache/
 
 </code></pre>
 <p>
@@ -542,6 +532,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/upulcooray/nahnes-project1/blob/f0b72c14d1f3f400705e64d063d0f30a94e196f7/analysis/inspect-data.Rmd" target="_blank">f0b72c1</a>
+</td>
+<td>
+upulcooray
+</td>
+<td>
+2021-07-05
+</td>
+<td>
+wflow_publish("analysis/*.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/upulcooray/nahnes-project1/05476695d9f47ffa204b01506d1e0d49d694bb93/docs/inspect-data.html" target="_blank">0547669</a>
+</td>
+<td>
+upulcooray
+</td>
+<td>
+2021-07-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1034,6 +1058,18 @@ skim(analytic_data)</code></pre>
 </tr>
 </tbody>
 </table>
+<p>Some visualization</p>
+<pre class="r"><code>analytic_data %&gt;% 
+  filter(!is.na(poverty),!is.na(den_pain)) %&gt;% 
+  mutate(pov= (poverty %/% 0.5)*0.5) %&gt;% 
+  count(pov, den_pain) %&gt;% 
+  ggplot(aes(pov,n, color= den_pain))+
+  geom_line(size= 1.5, alpha= 0.7)+
+  labs(
+    x = NULL, y = &quot;Number of people&quot;,
+    color = &quot;Dental pain?&quot;
+  )</code></pre>
+<p><img src="figure/inspect-data.Rmd/unnamed-chunk-2-1.png" width="2400" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1069,17 +1105,17 @@ loaded via a namespace (and not attached):
  [9] repr_1.1.3        backports_1.2.1   reprex_2.0.0      evaluate_0.14    
 [13] highr_0.9         httr_1.4.2        pillar_1.6.1      rlang_0.4.10     
 [17] readxl_1.3.1      rstudioapi_0.13   whisker_0.4       jquerylib_0.1.4  
-[21] rmarkdown_2.8     munsell_0.5.0     broom_0.7.6       compiler_4.0.5   
-[25] httpuv_1.6.1      modelr_0.1.8      xfun_0.22         pkgconfig_2.0.3  
-[29] base64enc_0.1-3   htmltools_0.5.1.1 tidyselect_1.1.1  fansi_0.5.0      
-[33] crayon_1.4.1      dbplyr_2.1.1      withr_2.4.2       later_1.2.0      
-[37] grid_4.0.5        jsonlite_1.7.2    gtable_0.3.0      lifecycle_1.0.0  
-[41] DBI_1.1.1         git2r_0.28.0      magrittr_2.0.1    scales_1.1.1     
-[45] cli_3.0.0         stringi_1.6.2     fs_1.5.0          promises_1.2.0.1 
-[49] xml2_1.3.2        bslib_0.2.5.1     ellipsis_0.3.2    generics_0.1.0   
-[53] vctrs_0.3.8       tools_4.0.5       glue_1.4.2        hms_1.0.0        
-[57] yaml_2.2.1        colorspace_2.0-1  rvest_1.0.0       haven_2.4.1      
-[61] sass_0.4.0       </code></pre>
+[21] rmarkdown_2.8     labeling_0.4.2    munsell_0.5.0     broom_0.7.6      
+[25] compiler_4.0.5    httpuv_1.6.1      modelr_0.1.8      xfun_0.22        
+[29] pkgconfig_2.0.3   base64enc_0.1-3   htmltools_0.5.1.1 tidyselect_1.1.1 
+[33] fansi_0.5.0       crayon_1.4.1      dbplyr_2.1.1      withr_2.4.2      
+[37] later_1.2.0       grid_4.0.5        jsonlite_1.7.2    gtable_0.3.0     
+[41] lifecycle_1.0.0   DBI_1.1.1         git2r_0.28.0      magrittr_2.0.1   
+[45] scales_1.1.1      cli_3.0.0         stringi_1.6.2     farver_2.1.0     
+[49] fs_1.5.0          promises_1.2.0.1  xml2_1.3.2        bslib_0.2.5.1    
+[53] ellipsis_0.3.2    generics_0.1.0    vctrs_0.3.8       tools_4.0.5      
+[57] glue_1.4.2        hms_1.0.0         yaml_2.2.1        colorspace_2.0-1 
+[61] rvest_1.0.0       haven_2.4.1       sass_0.4.0       </code></pre>
 </div>
 </div>
 
