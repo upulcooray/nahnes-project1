@@ -68,6 +68,7 @@ analytic_data %>%
   filter(!is.na(poverty),!is.na(den_pain)) %>% 
   mutate(pov= (poverty %/% 0.5)*0.5) %>% 
   count(pov, den_pain) %>% 
+  filter(pov != last(pov),pov != first(pov)) %>%
   ggplot(aes(pov,n, color= den_pain))+
   geom_line(size= 1.5, alpha= 0.7)+
   labs(
@@ -75,14 +76,41 @@ analytic_data %>%
     color = "Dental pain?"
   )
 
+```
+
+```{r}
+
+analytic_data %>% 
+  filter(!is.na(poverty),!is.na(den_pain)) %>% 
+  mutate(pov= (poverty %/% 0.5)*0.5,
+         pain= if_else(den_pain== "Very often"| den_pain== "Fairly often","Often", "Not often")) %>% 
   
-
-
-
+  count(pov, pain) %>% 
+  # filter(pov != last(pov),pov != first(pov)) %>%
+  group_by(pov) %>% 
+  mutate(percent_pain= n/sum(n)) %>% 
+  ungroup() %>% 
+  # filter(den_pain=="Very often") %>% 
+  ggplot(aes(pov, percent_pain, color= pain ))+
+  geom_line(size= 1.2, alpha= 0.8)+
+  scale_y_continuous(limits = c(0, NA), labels = scales::percent_format()) +
+  labs(x = NULL, y = "% pain very often")
 
 ```
 
+```{r}
+analytic_data %>% 
+  filter(!is.na(poverty),!is.na(teeth_tot)) %>%
+  mutate(pov= (poverty %/% 0.5)*0.5) %>% 
+ 
+  # filter(den_pain=="Very often") %>% 
+  ggplot(aes(pov,teeth_tot , color= teeth_tot ))+
+  geom_boxplot(size= 1.2, alpha= 0.8)+
+  scale_y_continuous(limits = c(0, NA))+
+  labs(x = NULL, y = "% pain very often")
 
+
+```
 
 
 
